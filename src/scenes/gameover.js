@@ -1,9 +1,8 @@
 import k from "../kaplayCtx";
 
-export default function gameover(citySfx) {
-  citySfx.paused = true;
-  let bestScore = k.getData("best-score");
-  const currentScore = k.getData("current-score");
+export default function gameover() {
+  let bestScore = k.getData("best-score") ?? 0;
+  const currentScore = k.getData("current-score") ?? 0;
 
   const rankGrades = ["F", "E", "D", "C", "B", "A", "S"];
   const rankValues = [50, 80, 100, 200, 300, 400, 500];
@@ -11,33 +10,42 @@ export default function gameover(citySfx) {
   let currentRank = "F";
   let bestRank = "F";
   for (let i = 0; i < rankValues.length; i++) {
-    if (rankValues[i] < currentScore) {
+    if (rankValues[i] <= currentScore) {
       currentRank = rankGrades[i];
     }
 
-    if (rankValues[i] < bestScore) {
+    if (rankValues[i] <= bestScore) {
       bestRank = rankGrades[i];
     }
   }
 
+  let isNewBest = false;
   if (bestScore < currentScore) {
     k.setData("best-score", currentScore);
     bestScore = currentScore;
     bestRank = currentRank;
+    isNewBest = true;
   }
 
   k.add([
     k.text("GAME OVER", { font: "mania", size: 96 }),
     k.anchor("center"),
-    k.pos(k.center().x, k.center().y - 300),
+    k.pos(k.center().x, k.center().y - 320),
   ]);
+  if (isNewBest) {
+    k.add([
+      k.text("NEW BEST!", { font: "mania", size: 40 }),
+      k.anchor("center"),
+      k.pos(k.center().x, k.center().y - 240),
+    ]);
+  }
   k.add([
     k.text(`BEST SCORE : ${bestScore}`, {
       font: "mania",
       size: 64,
     }),
     k.anchor("center"),
-    k.pos(k.center().x - 400, k.center().y - 200),
+    k.pos(k.center().x - 400, k.center().y - 140),
   ]);
   k.add([
     k.text(`CURRENT SCORE : ${currentScore}`, {
@@ -45,7 +53,7 @@ export default function gameover(citySfx) {
       size: 64,
     }),
     k.anchor("center"),
-    k.pos(k.center().x + 400, k.center().y - 200),
+    k.pos(k.center().x + 400, k.center().y - 140),
   ]);
 
   const bestRankBox = k.add([
@@ -54,7 +62,7 @@ export default function gameover(citySfx) {
     k.area(),
     k.anchor("center"),
     k.outline(6, k.Color.fromArray([255, 255, 255])),
-    k.pos(k.center().x - 400, k.center().y + 50),
+    k.pos(k.center().x - 400, k.center().y + 100),
   ]);
 
   bestRankBox.add([
@@ -68,7 +76,7 @@ export default function gameover(citySfx) {
     k.area(),
     k.anchor("center"),
     k.outline(6, k.Color.fromArray([255, 255, 255])),
-    k.pos(k.center().x + 400, k.center().y + 50),
+    k.pos(k.center().x + 400, k.center().y + 100),
   ]);
 
   currentRankBox.add([

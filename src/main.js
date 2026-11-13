@@ -21,6 +21,10 @@ k.loadSprite("ring", "graphics/ring.png", {
     spin: { from: 0, to: 15, loop: true, speed: 30 },
   },
 });
+k.loadSprite("palm", "graphics/palm.png");
+k.loadSprite("flowers", "graphics/flowers.png");
+k.loadSprite("buzz", "graphics/buzz.png");
+k.loadSprite("monitor", "graphics/monitor.png");
 k.loadSprite("motobug", "graphics/motobug.png", {
   sliceX: 5,
   sliceY: 1,
@@ -34,6 +38,7 @@ k.loadSound("hurt", "sounds/Hurt.wav");
 k.loadSound("hyper-ring", "sounds/HyperRing.wav");
 k.loadSound("jump", "sounds/Jump.wav");
 k.loadSound("ring", "sounds/Ring.wav");
+k.loadSound("ring-loss", "sounds/ring-loss.wav");
 k.loadSound("city", "sounds/city.mp3");
 
 k.scene("disclaimer", disclaimer);
